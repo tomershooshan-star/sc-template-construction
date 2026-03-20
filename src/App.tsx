@@ -1,0 +1,47 @@
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { siteConfig } from './config';
+import { Nav } from './components/Nav';
+import { Footer } from './components/Footer';
+import { ChatWidget } from './components/ChatWidget';
+import { HomePage } from './pages/HomePage';
+import { AboutPage } from './pages/AboutPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { ContactPage } from './pages/ContactPage';
+
+function App() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const { colors } = siteConfig;
+    root.style.setProperty('--color-primary', colors.primary);
+    root.style.setProperty('--color-primary-light', colors.primaryLight);
+    root.style.setProperty('--color-accent', colors.accent);
+    root.style.setProperty('--color-dark', colors.dark);
+    root.style.setProperty('--color-dark-alt', colors.darkAlt);
+    root.style.setProperty('--color-light', colors.light);
+    root.style.setProperty('--color-text', colors.text);
+    root.style.setProperty('--color-text-light', colors.textLight);
+
+    document.title = `${siteConfig.companyName} — ${siteConfig.tagline}`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', siteConfig.description);
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen" style={{ backgroundColor: siteConfig.colors.dark }}>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+        <Footer />
+        <ChatWidget />
+      </div>
+    </BrowserRouter>
+  );
+}
+
+export default App;
